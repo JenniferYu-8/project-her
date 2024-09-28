@@ -1,14 +1,87 @@
+.book-container {
+  // text-align: center;
+  // width: 100%;
+  // margin: auto;
+  // padding: 20px;
+  // background-color: black;
+  display: flex;
+  justify-content: center;
+}
+
+.flip-book {
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5);
+  display: none;
+  background-size: cover;
+}
+
+.demoCover {
+  background-color: hsl(35, 55, 98);
+  color: hsl(35, 35, 35);
+  border: solid 1px hsl(35, 20, 70);
+
+  overflow: hidden;
+
+  .cover-content {
+    padding-top: 40%;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+  }
+}
+
+
 .demoPage {
-    margin: auto;
+
+  background-color: hsl(35, 55, 98);
+  color: hsl(35, 35, 35);
+  border: solid 1px hsl(35, 20, 70);
+
+  overflow: hidden;
+
+  .page-content {
     padding: 20px;
-    background-color: hsl(35, 55, 98);
-    color: hsl(35, 35, 35);
-    border: solid 1px hsl(35, 20, 70);
-  }
-  
-  .pageNumber {
-    text-align: right;
-  }
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
 
+    .page-header {
+      height: 30px;
+      font-size: 100%;
+      text-transform: uppercase;
+      text-align: center;
+    }
 
-  
+    .page-image {
+      height: 100%;
+      background-size: contain;
+      background-position: center center;
+      background-repeat: no-repeat;
+    }
+
+    .page-text {
+      height: 100%;
+      flex-grow: 1;
+      font-size: 80%;
+      text-align: justify;
+      margin-top: 10px;
+      padding-top: 10px;
+      box-sizing: border-box;
+      border-top: solid 1px hsl(35, 55, 90);
+    }
+
+    .page-footer {
+      height: 40px;
+      border-top: solid 1px hsl(35, 55, 90);
+      font-size: 80%;
+      color: hsl(35, 20, 50);
+      text-align: center;
+    }
+  }
+}
