@@ -1,34 +1,40 @@
-import cohere
-from flask import Flask
+from flask import Flask, request, jsonify
+from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 
-# initalize flask app
 app = Flask(__name__)
+CORS(app)
 
-name = request.json.get("name")
-interest = request.json.get('interest')
-gender = request.json.get("gender")
+# Configuring the SQLite database
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///answers.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
 
-PREAMBLE = f'''You are a story-teller who is funny and engaging. You use a lot of imagery. You are taling to a student who is looking to get into the field of {interest}.'''
+# Define the Answers model
+class Answer(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=True)
+    gender = db.Column(db.String(10), nullable=True)
+    interest = db.Column(db.String(100), nullable=True)
 
-# Prompts
-COMMUNITY_RESOURCES = f'''My name is {name}. I am a student who is super interested in {interest}. I am a {gender} so i am part of the gender minority, so what resources do you recommend for me to connect with other {gender} like me interested in the field?'''
+# Create the database (only needs to be run once)
+with app.app_context():
+    db.create_all()
 
+# Route to save answers
+@app.route('/api/save-answers', methods=['POST'])
+def save_answers():
+    data = request.get_json()
+    name = data.get('name')
+    gender = data.get('gender')
+    interest = data.get('interest')
 
-co = cohere.Client(api_key="HNuszEemO11A2nbVQL6He6hRujnGG1OcvYH87m2c",)
+    # Create a new answer entry
+    new_answer = Answer(name=name, gender=gender, interest=interest)
+    db.session.add(new_answer)
+    db.session.commit()
 
-
-@app.route('/communityResources', methods=['POST'])
-def get_community_resources():
-    
-    chat = co.chat(
-        preamble=PREAMBLE,
-        message=COMMUNITY_RESOURCES,
-        model="command-r-plus"
-    )
-    
-    print(chat)
-    
-    return(chat.text)
+    return jsonify({"message": "Answers saved successfully!"}), 201
 
 if __name__ == '__main__':
     app.run(debug=True)
