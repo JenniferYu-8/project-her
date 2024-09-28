@@ -4,15 +4,16 @@
 }
 
 .flip-book {
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 20px 0 rgba(111, 111, 111, 0.3);
   display: none;
   background-size: cover;
 }
 
 .demoCover {
-  background-color: hsl(35, 55%, 98%);
-  color: hsl(35, 35%, 35%);
-  border: solid 1px hsl(35, 20%, 70%);
+  background-color: hsl(190, 60%, 98%);
+  color: hsl(190, 35%, 35%);
+  border: solid 1px hsl(188, 20%, 70%);
+  box-shadow: 0 30px 40px rgba(0, 0, 0, 0.3);
   overflow: hidden;
 }
 .demoCover .cover-content {
@@ -27,9 +28,10 @@
 }
 
 .demoPage {
-  background-color: hsl(35, 55%, 98%);
-  color: hsl(35, 35%, 35%);
-  border: solid 1px hsl(35, 20%, 70%);
+  background-color: hsl(190, 60%, 98%);
+  color: hsl(190, 35%, 35%);
+  border: solid 1px hsl(188, 20%, 70%);
+  box-shadow: 0 30px 40px rgba(0, 0, 0, 0.3);
   overflow: hidden;
 }
 .demoPage .page-content {
@@ -46,12 +48,7 @@
   font-size: 100%;
   text-transform: uppercase;
   text-align: center;
-}
-.demoPage .page-content .page-image {
-  height: 100%;
-  background-size: contain;
-  background-position: center center;
-  background-repeat: no-repeat;
+  width: 90%;
 }
 .demoPage .page-content .page-text {
   height: 100%;
@@ -61,12 +58,15 @@
   margin-top: 10px;
   padding-top: 10px;
   box-sizing: border-box;
-  border-top: solid 1px hsl(35, 55%, 90%);
+  border-top: solid 1px hsl(188, 20%, 70%);
+  width: 90%;
 }
 .demoPage .page-content .page-footer {
+  padding-top: 5px;
   height: 40px;
-  border-top: solid 1px hsl(35, 55%, 90%);
+  width: 90%;
+  border-top: solid 1px hsl(188, 20%, 70%);
   font-size: 80%;
-  color: hsl(35, 20%, 50%);
+  color: hsl(190, 35%, 35%);
   text-align: center;
 }/*# sourceMappingURL=App.css.map */

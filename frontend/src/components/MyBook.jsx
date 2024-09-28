@@ -15,7 +15,7 @@ const Page = React.forwardRef((props, ref) => {
     return (
       <div className="demoPage" ref={ref}>
         <div className="page-content">
-          <h1 className="page-header">Page Header</h1>
+          <h1 className="page-header">{props.header}</h1>
           <p className="page-text">{props.children}</p>
           <p className="page-footer">{props.number}</p>
         </div>
@@ -28,12 +28,12 @@ const Page = React.forwardRef((props, ref) => {
       <div className="book-container">  
         <HTMLFlipBook width={450} height={650} showCover="true">
           <Cover>Title</Cover>
-          <Page number="1">sdkfhfghsdlk text</Page>
-          <Page number="2">Page text</Page>
-          <Page number="3">Page text</Page>
-          <Page number="4">Page text</Page>
-          <Page number="5">Page text</Page>
-          <Page number="6">Page text</Page>
+          <Page number="1" header="A Day in the Life"></Page>
+          <Page number="2" header="Resources Used">A Day in </Page>
+          <Page number="3" header="Future Opportunities">Page text</Page>
+          <Page number="4" header="Impact">Page text</Page>
+          <Page number="5" header="Giving Back to the Community">Page text</Page>
+          <Page number="6" header="How to get there">Page text</Page>
         </HTMLFlipBook>
       </div>
 
