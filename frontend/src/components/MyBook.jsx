@@ -1,15 +1,17 @@
 import HTMLFlipBook from "react-pageflip";
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom"; // Import useNavigate for redirection
 import axios from "axios";
-import projecther from './projecther.png'; // Update the path as needed
+import projecther from "./projecther.png"; // Update the path as needed
 
 const Cover = React.forwardRef(({ name }, ref) => {
   return (
     <div className="demoCover" ref={ref}>
       <div className="cover-content">
-        <h1 className="cover-title">{name}'s Story</h1>
-        <img src={projecther} alt="Project Her" className="cover-image" />
+        <div>
+          <img src={projecther} alt="Project Her" className="cover-image" />
+          <h1 className="cover-title">{name}'s Story</h1>
+        </div>
       </div>
     </div>
   );
@@ -29,6 +31,7 @@ const Page = React.forwardRef(({ header, children, number }, ref) => {
 
 export default function MyBook(props) {
   const location = useLocation();
+  const navigate = useNavigate(); // Hook for navigation
 
   const { answers } = location.state; // Get answers from location state
   const [dayInLife, setDayInLife] = useState(""); // State for Day in Life
@@ -39,25 +42,34 @@ export default function MyBook(props) {
   const [howToGetThere, setHowToGetThere] = useState(""); // State for How to Get There
 
   useEffect(() => {
-    // Using empty dependency array ensures the effect runs once, after initial render
     const fetchData = async () => {
       try {
-        const dayInLifeData = await fetch("/dayInLife").then((res) => res.json());
+        const dayInLifeData = await fetch("/dayInLife").then((res) =>
+          res.json()
+        );
         setDayInLife(dayInLifeData);
 
-        const resourcesUsedData = await fetch("/resourcesUsed").then((res) => res.json());
+        const resourcesUsedData = await fetch("/resourcesUsed").then((res) =>
+          res.json()
+        );
         setResourcesUsed(resourcesUsedData);
 
-        const futureOpportunitiesData = await fetch("/futureOpportunities").then((res) => res.json());
+        const futureOpportunitiesData = await fetch(
+          "/futureOpportunities"
+        ).then((res) => res.json());
         setFutureOpportunities(futureOpportunitiesData);
 
         const impactData = await fetch("/impact").then((res) => res.json());
         setImpact(impactData);
 
-        const givingBackData = await fetch("/givingBack").then((res) => res.json());
+        const givingBackData = await fetch("/givingBack").then((res) =>
+          res.json()
+        );
         setGivingBack(givingBackData);
 
-        const howToGetThereData = await fetch("/howToGetThere").then((res) => res.json());
+        const howToGetThereData = await fetch("/howToGetThere").then((res) =>
+          res.json()
+        );
         setHowToGetThere(howToGetThereData);
       } catch (error) {
         console.error("Error fetching data", error);
@@ -65,7 +77,11 @@ export default function MyBook(props) {
     };
 
     fetchData();
-  }, []); // Empty dependency array ensures this runs only once after initial render
+  }, []);
+
+  const handleReplay = () => {
+    navigate("/"); // Redirect to the survey
+  };
 
   return (
     <div className="book-container">
@@ -89,11 +105,15 @@ export default function MyBook(props) {
         <Page number="6" header="How Do You Get There?">
           {howToGetThere.answers}
         </Page>
-        {/* Final page repeating the cover content */}
+        {/* Final page repeating the cover content with Replay Button */}
         <Page number="7" header="The Beginning">
-          <h2>Time for YOUR Jor{answers.name}</h2>
+          <h2>Time for YOUR Journey, {answers.name}</h2>
           <p>Every ending is a new beginning, where your journey continues.</p>
           <img src={projecther} alt="Project Her" className="cover-image" />
+          <button onClick={handleReplay} className="replay-button">
+            Replay
+          </button>{" "}
+          {/* Replay button */}
         </Page>
       </HTMLFlipBook>
     </div>
