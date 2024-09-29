@@ -34,7 +34,7 @@ def save_answers():
     db.session.add(new_answer)
     db.session.commit()
 
-    return jsonify({"message": "Answers saved successfully!"}), 201
+    return jsonify({"message": f"{name}{gender} {interest} Answers saved successfully!"}), 201
 
 if __name__ == '__main__':
     app.run(debug=True)

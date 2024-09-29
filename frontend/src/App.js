@@ -1,7 +1,12 @@
+// App.jsx
 import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Books from './components/Books';
+import MyBook from './components/MyBook';
+import "./App.css"
 
-function App() {
+function Questionnaire() {
   const questions = [
     { id: 1, question: "What is your name?", type: "name" },
     { id: 2, question: "What is your gender?", type: "gender" },
@@ -12,6 +17,7 @@ function App() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState({});
   const [input, setInput] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,6 +38,8 @@ function App() {
     } else {
       // All questions answered, submit answers to the backend
       await submitAnswers();
+      // Now navigate to Books after submitting answers
+      navigate('/books', { state: { answers: { ...answers, [currentQuestion.type]: input } } }); // Pass the updated answers
     }
   };
 
@@ -62,6 +70,19 @@ function App() {
         </button>
       </form>
     </div>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<Questionnaire />} />
+          <Route path="/books" element={<MyBook />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
