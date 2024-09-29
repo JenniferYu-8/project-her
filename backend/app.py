@@ -52,7 +52,7 @@ def get_day_in_life():
     if latest_answer is None:
         return jsonify({"error": "No answers found."}), 404
 
-    DAY_IN_LIFE = f"In 60 words, describe a day in the life of {latest_answer.name}, who is a {latest_answer.gender} currently working as a {latest_answer.future}. Use imagery. Never autocorrect or change the spelling of their name. Include tasks the person does in the job."
+    DAY_IN_LIFE = f"In 60 words, describe a day in the life of {latest_answer.name}, who is a {latest_answer.gender} currently working as a {latest_answer.future}. Use imagery and be specific to the job position. Never autocorrect or change the spelling of their name. Include tasks the person does in the job."
     
     chat = co.chat(
         preamble=PREAMBLE,
