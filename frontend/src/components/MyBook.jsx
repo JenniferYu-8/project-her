@@ -27,69 +27,92 @@ const Page = React.forwardRef(({ header, children, number }, ref) => {
 
 export default function MyBook(props) {
   const location = useLocation();
-  
+
   // const { name, gender, interest } = location.state || {}; // Destructure to get name, gender, and interest
 
   const { answers } = location.state; // Get answers from location state
-  const [data, setData] = useState(""); // Update to string state
   const [userData, setUserData] = useState({});
-
+  const [dayInLife, setDayInLife] = useState(""); // State for Day in Life
+  const [resourcesUsed, setResourcesUsed] = useState(""); // State for Resources Used
+  const [futureOpportunities, setFutureOpportunities] = useState(""); // State for Future Opportunities
+  const [impact, setImpact] = useState(""); // State for Impact
+  const [givingBack, setGivingBack] = useState(""); // State for Giving Back
+  const [howToGetThere, setHowToGetThere] = useState(""); // State for How to Get There
 
   useEffect(() => {
     console.log("chat.text");
 
-    fetch("/communityResources")
+    fetch("/dayInLife")
       .then((res) => res.json())
-      .then((data) => {
-        setData(data);
-        console.log("setting");
-        console.log(data);
+      .then((dayInLifeData) => {
+        setDayInLife(dayInLifeData);
+        console.log("setting dayInLife");
+        console.log(dayInLifeData);
       });
-  }, []);
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        // Assuming the API can fetch user data based on name
-        const response = await axios.get('http://127.0.0.1:5000/api/get-user-data', {
-          params: {
-            name: answers.name, // This should be valid if your API is set up accordingly
-          },
-        });
-        setUserData(response.data);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
-    // Fetch user data only if answers are present
-    if (answers && answers.name) {
-      fetchUserData();
-    }
+    fetch("/resourcesUsed")
+      .then((res) => res.json())
+      .then((resourcesUsedData) => {
+        setResourcesUsed(resourcesUsedData);
+        console.log("setting resourcesUsed");
+        console.log(resourcesUsedData);
+      });
+
+    fetch("/futureOpportunities")
+      .then((res) => res.json())
+      .then((futureOpportunitiesData) => {
+        setFutureOpportunities(futureOpportunitiesData);
+        console.log("setting futureOpportunities");
+        console.log(futureOpportunitiesData);
+      });
+
+    fetch("/impact")
+      .then((res) => res.json())
+      .then((impactData) => {
+        setImpact(impactData);
+        console.log("setting impact");
+        console.log(impactData);
+      });
+
+    fetch("/givingBack")
+      .then((res) => res.json())
+      .then((givingBackData) => {
+        setGivingBack(givingBackData);
+        console.log("setting givingBack");
+        console.log(givingBackData);
+      });
+
+    fetch("/howToGetThere")
+      .then((res) => res.json())
+      .then((howToGetThereData) => {
+        setHowToGetThere(howToGetThereData);
+        console.log("setting howToGetThere");
+        console.log(howToGetThereData);
+      });
   }, [answers]);
-
 
   return (
     <div className="book-container">
       <HTMLFlipBook width={450} height={650} showCover="true">
         <Cover name={answers.name}>Title</Cover>
         <Page number="1" header="A Day in the Life">
-        {data.answers}
+          {dayInLife.answers}
         </Page>
         <Page number="2" header="Resources Used">
-          {data.answers}
+          {resourcesUsed.answers}
         </Page>
 
         <Page number="3" header="Future Opportunities">
-          {data.answers}
+          {futureOpportunities.answers}
         </Page>
         <Page number="4" header="Impact">
-          {data.answers}
+          {impact.answers}
         </Page>
-        <Page number="5" header="Giving Back to the Community">
-          {data.answers}
+        <Page number="5" header="Community Involvement">
+          {givingBack.answers}
         </Page>
-        <Page number="6" header="How to get there">
-          {data.answers}
+        <Page number="6" header="How Do You Get There?">
+          {howToGetThere.answers}
         </Page>
       </HTMLFlipBook>
     </div>

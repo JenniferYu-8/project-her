@@ -41,23 +41,112 @@ def save_answers():
 
     return jsonify({"message": f"{name}{gender} {interest} Answers saved successfully!"}), 201
 
-@app.route('/communityResources')
-def get_community_resources():
+@app.route('/dayInLife')
+def get_day_in_life():
     latest_answer = Answer.query.order_by(Answer.id.desc()).first()
     
     if latest_answer is None:
         return jsonify({"error": "No answers found."}), 404
 
-    # Construct the COMMUNITY_RESOURCES prompt using the user data
-    COMMUNITY_RESOURCES = f"Make a funny story about {latest_answer.name}, who is a {latest_answer.gender} interested in {latest_answer.interest}."
+    DAY_IN_LIFE = f"In 50 words, Describe a day in the life of {latest_answer.name}, who is a {latest_answer.gender} interested in {latest_answer.interest}."
     
     chat = co.chat(
         preamble=PREAMBLE,
-        message=COMMUNITY_RESOURCES,
+        message=DAY_IN_LIFE,
         model="command-r-plus"
     )
     
-    return  {"answers": chat.text}
+    return {"answers": chat.text}
+
+
+@app.route('/resourcesUsed')
+def get_resources_used():
+    latest_answer = Answer.query.order_by(Answer.id.desc()).first()
+    
+    if latest_answer is None:
+        return jsonify({"error": "No answers found."}), 404
+
+    RESOURCES_USED = f"In 50 words, What resources does {latest_answer.name}, a {latest_answer.gender} interested in {latest_answer.interest}, use to achieve their goals?"
+    
+    chat = co.chat(
+        preamble=PREAMBLE,
+        message=RESOURCES_USED,
+        model="command-r-plus"
+    )
+    
+    return {"answers": chat.text}
+
+
+@app.route('/futureOpportunities')
+def get_future_opportunities():
+    latest_answer = Answer.query.order_by(Answer.id.desc()).first()
+    
+    if latest_answer is None:
+        return jsonify({"error": "No answers found."}), 404
+
+    FUTURE_OPPORTUNITIES = f"In 50 words, What future opportunities await {latest_answer.name}, a {latest_answer.gender} interested in {latest_answer.interest}?"
+    
+    chat = co.chat(
+        preamble=PREAMBLE,
+        message=FUTURE_OPPORTUNITIES,
+        model="command-r-plus"
+    )
+    
+    return {"answers": chat.text}
+
+
+@app.route('/impact')
+def get_impact():
+    latest_answer = Answer.query.order_by(Answer.id.desc()).first()
+    
+    if latest_answer is None:
+        return jsonify({"error": "No answers found."}), 404
+
+    IMPACT = f"In 50 words, What impact does {latest_answer.name}, a {latest_answer.gender} interested in {latest_answer.interest}, have on their community?"
+    
+    chat = co.chat(
+        preamble=PREAMBLE,
+        message=IMPACT,
+        model="command-r-plus"
+    )
+    
+    return {"answers": chat.text}
+
+
+@app.route('/givingBack')
+def get_giving_back():
+    latest_answer = Answer.query.order_by(Answer.id.desc()).first()
+    
+    if latest_answer is None:
+        return jsonify({"error": "No answers found."}), 404
+
+    GIVING_BACK = f"In 50 words, How does {latest_answer.name}, a {latest_answer.gender} interested in {latest_answer.interest}, give back to the community?"
+    
+    chat = co.chat(
+        preamble=PREAMBLE,
+        message=GIVING_BACK,
+        model="command-r-plus"
+    )
+    
+    return {"answers": chat.text}
+
+
+@app.route('/howToGetThere')
+def get_how_to_get_there():
+    latest_answer = Answer.query.order_by(Answer.id.desc()).first()
+    
+    if latest_answer is None:
+        return jsonify({"error": "No answers found."}), 404
+
+    HOW_TO_GET_THERE = f"In 50 words, What steps can {latest_answer.name}, a {latest_answer.gender} interested in {latest_answer.interest}, take to achieve their goals?"
+    
+    chat = co.chat(
+        preamble=PREAMBLE,
+        message=HOW_TO_GET_THERE,
+        model="command-r-plus"
+    )
+    
+    return {"answers": chat.text}
 
 
 if __name__ == '__main__':
