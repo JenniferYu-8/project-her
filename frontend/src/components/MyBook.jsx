@@ -27,9 +27,13 @@ const Page = React.forwardRef(({ header, children, number }, ref) => {
 
 export default function MyBook(props) {
   const location = useLocation();
+  
+  // const { name, gender, interest } = location.state || {}; // Destructure to get name, gender, and interest
+
   const { answers } = location.state; // Get answers from location state
-  const [userData, setUserData] = useState({});
   const [data, setData] = useState(""); // Update to string state
+  const [userData, setUserData] = useState({});
+
 
   useEffect(() => {
     console.log("chat.text");
@@ -43,10 +47,31 @@ export default function MyBook(props) {
       });
   }, []);
 
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        // Assuming the API can fetch user data based on name
+        const response = await axios.get('http://127.0.0.1:5000/api/get-user-data', {
+          params: {
+            name: answers.name, // This should be valid if your API is set up accordingly
+          },
+        });
+        setUserData(response.data);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+    // Fetch user data only if answers are present
+    if (answers && answers.name) {
+      fetchUserData();
+    }
+  }, [answers]);
+
+
   return (
     <div className="book-container">
       <HTMLFlipBook width={450} height={650} showCover="true">
-        <Cover name="data.answers">Title</Cover>
+        <Cover name={answers.name}>Title</Cover>
         <Page number="1" header="A Day in the Life">
         {data.answers}
         </Page>

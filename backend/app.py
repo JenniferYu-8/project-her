@@ -7,8 +7,8 @@ import cohere
 app = Flask(__name__)
 CORS(app)
 co = cohere.Client(api_key="HNuszEemO11A2nbVQL6He6hRujnGG1OcvYH87m2c",)
-PREAMBLE = f'''You are a story-teller that's 60 words'''
-COMMUNITY_RESOURCES = f'''make a funny story'''
+PREAMBLE = f'''You are a story-teller'''
+COMMUNITY_RESOURCES = f'''My name is'''
 
 # Configuring the SQLite database
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///answers.db'
@@ -43,17 +43,21 @@ def save_answers():
 
 @app.route('/communityResources')
 def get_community_resources():
+    latest_answer = Answer.query.order_by(Answer.id.desc()).first()
+    
+    if latest_answer is None:
+        return jsonify({"error": "No answers found."}), 404
+
+    # Construct the COMMUNITY_RESOURCES prompt using the user data
+    COMMUNITY_RESOURCES = f"Make a funny story about {latest_answer.name}, who is a {latest_answer.gender} interested in {latest_answer.interest}."
+    
     chat = co.chat(
         preamble=PREAMBLE,
         message=COMMUNITY_RESOURCES,
         model="command-r-plus"
     )
     
-    print("hi")
-    print(chat.text)
-    
-    return {"answers": chat.text}
-
+    return  {"answers": chat.text}
 
 
 if __name__ == '__main__':
