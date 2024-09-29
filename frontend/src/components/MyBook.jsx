@@ -107,13 +107,15 @@ export default function MyBook(props) {
         </Page>
         {/* Final page repeating the cover content with Replay Button */}
         <Page number="7" header="The Beginning">
-          <h2>Time for YOUR Journey, {answers.name}</h2>
-          <p>Every ending is a new beginning, where your journey continues.</p>
-          <img src={projecther} alt="Project Her" className="cover-image" />
-          <button onClick={handleReplay} className="replay-button">
-            Replay
-          </button>{" "}
-          {/* Replay button */}
+          <div className="center-page">
+            <h2>This is merely the beginning of your story, {answers.name}!</h2>
+            <p className="dream">Go out there and dream BIG!</p>
+            <img src={projecther} alt="Project Her" className="cover-image" />
+            <button onClick={handleReplay} className="replay-button">
+              Replay
+            </button>{" "}
+            {/* Replay button */}
+          </div>
         </Page>
       </HTMLFlipBook>
     </div>

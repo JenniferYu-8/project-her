@@ -11,9 +11,25 @@ body, head {
   color: transparent;
 }
 
+.center-page {
+  display: flex;
+  flex-direction: column; /* Stacks the items vertically */
+  align-items: center; /* Horizontally centers the items */
+  text-align: center; /* Centers the text inside each element */
+}
+
+.replay-button {
+  margin-top: 50px; /* Adds space above the button */
+  transform: scale(1.5);
+}
+
 .cover-title {
   text-align: center; /* Center the title */
   margin-top: 60px; /* Space between the title and the image */
+}
+
+.dream {
+  font-size: 24px;
 }
 
 .cover-image {
