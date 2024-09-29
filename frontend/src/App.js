@@ -13,55 +13,44 @@ import "./App.css";
 
 function Questionnaire() {
   const questions = [
-    { id: 1, question: "What is your name?", type: "name" },
-    { id: 2, question: "What is your gender?", type: "gender" },
-    { id: 3, question: "What is your interest?", type: "interest" },
-    // Add more questions as needed
+    { id: 1, question: "My name is...", type: "name", placeholder: "First name" },
+    { id: 2, question: "I identify as...", type: "gender", placeholder: "e.g. woman, non-binary, trans" },
+    { id: 3, question: "I am currently...", type: "position", placeholder: "e.g. high school student, employee" },
+    { id: 4, question: "I am interested in...", type: "interest", placeholder: "e.g. software engineering, aviation" },
+    { id: 5, question: "I want to be...", type: "future", placeholder: "e.g. web developer, pilot" },
   ];
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState({});
   const [input, setInput] = useState("");
   const navigate = useNavigate();
-  let updatedAnswers
+  let updatedAnswers;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Get the current question
     const currentQuestion = questions[currentQuestionIndex];
-
-    // Update answers state with the current input
     updatedAnswers = {
       ...answers,
-      [currentQuestion.type]: input, // Add the current input
+      [currentQuestion.type]: input,
     };
 
     console.log(input);
-    console.log(updatedAnswers); // Log the updated answers
+    console.log(updatedAnswers);
 
-    // Clear input for next question
     setInput("");
 
-    // Move to the next question or submit the answers if it's the last question
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
-      // Update the state to reflect all collected answers
       setAnswers(updatedAnswers);
     } else {
       console.log(updatedAnswers);
-
-      // All questions answered, submit answers to the backend
-      await submitAnswers({
-      ...answers,
-      [currentQuestion.type]: input, // Add the current input
-    }); // Pass the updated answers to submit
-      // Now navigate to Books after submitting answers
-      navigate("/books", { state: { answers: updatedAnswers } }); // Pass the collected answers
+      await submitAnswers(updatedAnswers);
+      navigate("/books", { state: { answers: updatedAnswers } });
     }
   };
 
-  const submitAnswers = async () => {
+  const submitAnswers = async (updatedAnswers) => {
     try {
       console.log(updatedAnswers);
       const response = await axios.post(
@@ -69,7 +58,6 @@ function Questionnaire() {
         updatedAnswers
       );
       console.log("Response from server:", response.data);
-      // Optionally reset state after submission
       setCurrentQuestionIndex(0);
       setAnswers({});
     } catch (error) {
@@ -83,7 +71,7 @@ function Questionnaire() {
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          placeholder="Your answer"
+          placeholder={questions[currentQuestionIndex].placeholder}
           value={input}
           onChange={(e) => setInput(e.target.value)}
         />
@@ -94,6 +82,7 @@ function Questionnaire() {
     </div>
   );
 }
+
 
 function App() {
   return (

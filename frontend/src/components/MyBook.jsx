@@ -28,8 +28,6 @@ const Page = React.forwardRef(({ header, children, number }, ref) => {
 export default function MyBook(props) {
   const location = useLocation();
 
-  // const { name, gender, interest } = location.state || {}; // Destructure to get name, gender, and interest
-
   const { answers } = location.state; // Get answers from location state
   const [userData, setUserData] = useState({});
   const [dayInLife, setDayInLife] = useState(""); // State for Day in Life
