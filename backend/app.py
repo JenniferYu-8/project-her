@@ -7,8 +7,7 @@ import cohere
 app = Flask(__name__)
 CORS(app)
 co = cohere.Client(api_key="HNuszEemO11A2nbVQL6He6hRujnGG1OcvYH87m2c",)
-PREAMBLE = f'''You are a story-teller'''
-COMMUNITY_RESOURCES = f'''My name is'''
+PREAMBLE = f'''You are a story-teller who is an expert at telling engaging stories and giving advice. Always speak in third person. Never autocorrect or change the spelling of the names of who you are talking about.'''
 
 # Configuring the SQLite database
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///answer.db'
@@ -32,7 +31,6 @@ with app.app_context():
 # Route to save answers
 @app.route('/api/save-answers', methods=['POST'])
 def save_answers():
-    print("hi")
     data = request.get_json()
     name = data.get('name')
     gender = data.get('gender')
@@ -40,13 +38,10 @@ def save_answers():
     interest = data.get('interest')
     future = data.get('future')
     
-    print("hi")
-
     # Create a new answer entry
     new_answer = Answer(name=name, gender=gender, position=position, interest=interest, future=future)
     db.session.add(new_answer)
     db.session.commit()
-    print("bye")
 
     return jsonify({"message": f"{name} {gender} {position}{interest}{future} Answers saved successfully!"}), 201
 
@@ -57,7 +52,7 @@ def get_day_in_life():
     if latest_answer is None:
         return jsonify({"error": "No answers found."}), 404
 
-    DAY_IN_LIFE = f"In 50 words, describe a day in the life of {latest_answer.name}, who is a {latest_answer.gender} interested in {latest_answer.interest}, currently a {latest_answer.position} with aspirations to be a {latest_answer.future}."
+    DAY_IN_LIFE = f"In 60 words, describe a day in the life of {latest_answer.name}, who is a {latest_answer.gender} currently working as a {latest_answer.future}. Use imagery. Never autocorrect or change the spelling of their name. Include tasks the person does in the job."
     
     chat = co.chat(
         preamble=PREAMBLE,
@@ -75,7 +70,7 @@ def get_resources_used():
     if latest_answer is None:
         return jsonify({"error": "No answers found."}), 404
 
-    RESOURCES_USED = f"In 50 words, what resources does {latest_answer.name}, a {latest_answer.gender} interested in {latest_answer.interest}, currently a {latest_answer.position} with aspirations to be a {latest_answer.future}, use to achieve their goals?"
+    RESOURCES_USED = f"In 65 words, what resources does {latest_answer.name}, a {latest_answer.gender} interested in {latest_answer.interest}, currently a {latest_answer.position} with aspirations to be a {latest_answer.future}, use to achieve their goals?"
     
     chat = co.chat(
         preamble=PREAMBLE,
@@ -93,7 +88,7 @@ def get_future_opportunities():
     if latest_answer is None:
         return jsonify({"error": "No answers found."}), 404
 
-    FUTURE_OPPORTUNITIES = f"In 50 words, what future opportunities await {latest_answer.name}, a {latest_answer.gender} interested in {latest_answer.interest}, currently a {latest_answer.position} with aspirations to be a {latest_answer.future}?"
+    FUTURE_OPPORTUNITIES = f"In 65 words, what future opportunities await {latest_answer.name}, a {latest_answer.gender} interested in {latest_answer.interest}, currently a {latest_answer.position} with aspirations to be a {latest_answer.future}? Be specific in the type of organizations, jobs, and career opportunties they have to grow their career."
     
     chat = co.chat(
         preamble=PREAMBLE,
@@ -111,7 +106,7 @@ def get_impact():
     if latest_answer is None:
         return jsonify({"error": "No answers found."}), 404
 
-    IMPACT = f"In 50 words, what impact does {latest_answer.name}, a {latest_answer.gender} interested in {latest_answer.interest}, currently a {latest_answer.position} with aspirations to be a {latest_answer.future}, have on their community?"
+    IMPACT = f"In 65 words, what impact does {latest_answer.name}, a {latest_answer.gender} interested in {latest_answer.interest}, currently a {latest_answer.position} with aspirations to be a {latest_answer.future}, have on their community?"
     
     chat = co.chat(
         preamble=PREAMBLE,
@@ -129,7 +124,7 @@ def get_giving_back():
     if latest_answer is None:
         return jsonify({"error": "No answers found."}), 404
 
-    GIVING_BACK = f"In 50 words, how does {latest_answer.name}, a {latest_answer.gender} interested in {latest_answer.interest}, currently a {latest_answer.position} with aspirations to be a {latest_answer.future}, give back to the community?"
+    GIVING_BACK = f"In 65 words, how does {latest_answer.name}, a {latest_answer.gender} interested in {latest_answer.interest}, currently a {latest_answer.position} with aspirations to be a {latest_answer.future}, give back to the community?"
     
     chat = co.chat(
         preamble=PREAMBLE,
@@ -147,7 +142,7 @@ def get_how_to_get_there():
     if latest_answer is None:
         return jsonify({"error": "No answers found."}), 404
 
-    HOW_TO_GET_THERE = f"In 50 words, what steps can {latest_answer.name}, a {latest_answer.gender} interested in {latest_answer.interest}, currently a {latest_answer.position} with aspirations to be a {latest_answer.future}, take to achieve their goals?"
+    HOW_TO_GET_THERE = f"In 65 words, what steps can {latest_answer.name}, a {latest_answer.gender} interested in {latest_answer.interest}, currently a {latest_answer.position} with aspirations to be a {latest_answer.future}, take to achieve their goals? Include some specific resources to use. Do not use bullet points, but instead list ways separated by commas. Finish off by motivating {latest_answer.name}!"
     
     chat = co.chat(
         preamble=PREAMBLE,

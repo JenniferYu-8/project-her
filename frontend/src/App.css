@@ -11,6 +11,19 @@ body, head {
   color: transparent;
 }
 
+.cover-title {
+  text-align: center; /* Center the title */
+  margin-top: 80px; /* Space between the title and the image */
+}
+
+.cover-image {
+  width: 60%; /* Set width to 100% of the parent container */
+  height: auto; /* Maintain aspect ratio */
+  max-width: 450px; /* Limit max width to maintain proportions */
+  display: block; /* Center the image block */
+  margin: 0 auto; /* Center the image horizontally */
+}
+
 head::before, head::after,
 body::before, body::after {
   position: fixed;

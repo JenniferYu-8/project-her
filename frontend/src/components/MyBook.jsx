@@ -2,12 +2,14 @@ import HTMLFlipBook from "react-pageflip";
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import projecther from './projecther.png'; // Update the path as needed
 
 const Cover = React.forwardRef(({ name }, ref) => {
   return (
     <div className="demoCover" ref={ref}>
       <div className="cover-content">
         <h1 className="cover-title">{name}'s Story</h1>
+        <img src={projecther} alt="Project Her" className="cover-image" />
       </div>
     </div>
   );
@@ -29,7 +31,6 @@ export default function MyBook(props) {
   const location = useLocation();
 
   const { answers } = location.state; // Get answers from location state
-  const [userData, setUserData] = useState({});
   const [dayInLife, setDayInLife] = useState(""); // State for Day in Life
   const [resourcesUsed, setResourcesUsed] = useState(""); // State for Resources Used
   const [futureOpportunities, setFutureOpportunities] = useState(""); // State for Future Opportunities
@@ -38,56 +39,33 @@ export default function MyBook(props) {
   const [howToGetThere, setHowToGetThere] = useState(""); // State for How to Get There
 
   useEffect(() => {
-    console.log("chat.text");
-
-    fetch("/dayInLife")
-      .then((res) => res.json())
-      .then((dayInLifeData) => {
+    // Using empty dependency array ensures the effect runs once, after initial render
+    const fetchData = async () => {
+      try {
+        const dayInLifeData = await fetch("/dayInLife").then((res) => res.json());
         setDayInLife(dayInLifeData);
-        console.log("setting dayInLife");
-        console.log(dayInLifeData);
-      });
 
-    fetch("/resourcesUsed")
-      .then((res) => res.json())
-      .then((resourcesUsedData) => {
+        const resourcesUsedData = await fetch("/resourcesUsed").then((res) => res.json());
         setResourcesUsed(resourcesUsedData);
-        console.log("setting resourcesUsed");
-        console.log(resourcesUsedData);
-      });
 
-    fetch("/futureOpportunities")
-      .then((res) => res.json())
-      .then((futureOpportunitiesData) => {
+        const futureOpportunitiesData = await fetch("/futureOpportunities").then((res) => res.json());
         setFutureOpportunities(futureOpportunitiesData);
-        console.log("setting futureOpportunities");
-        console.log(futureOpportunitiesData);
-      });
 
-    fetch("/impact")
-      .then((res) => res.json())
-      .then((impactData) => {
+        const impactData = await fetch("/impact").then((res) => res.json());
         setImpact(impactData);
-        console.log("setting impact");
-        console.log(impactData);
-      });
 
-    fetch("/givingBack")
-      .then((res) => res.json())
-      .then((givingBackData) => {
+        const givingBackData = await fetch("/givingBack").then((res) => res.json());
         setGivingBack(givingBackData);
-        console.log("setting givingBack");
-        console.log(givingBackData);
-      });
 
-    fetch("/howToGetThere")
-      .then((res) => res.json())
-      .then((howToGetThereData) => {
+        const howToGetThereData = await fetch("/howToGetThere").then((res) => res.json());
         setHowToGetThere(howToGetThereData);
-        console.log("setting howToGetThere");
-        console.log(howToGetThereData);
-      });
-  }, [answers]);
+      } catch (error) {
+        console.error("Error fetching data", error);
+      }
+    };
+
+    fetchData();
+  }, []); // Empty dependency array ensures this runs only once after initial render
 
   return (
     <div className="book-container">
@@ -99,7 +77,6 @@ export default function MyBook(props) {
         <Page number="2" header="Resources Used">
           {resourcesUsed.answers}
         </Page>
-
         <Page number="3" header="Future Opportunities">
           {futureOpportunities.answers}
         </Page>
@@ -111,6 +88,12 @@ export default function MyBook(props) {
         </Page>
         <Page number="6" header="How Do You Get There?">
           {howToGetThere.answers}
+        </Page>
+        {/* Final page repeating the cover content */}
+        <Page number="7" header="The Beginning">
+          <h2>Time for YOUR Jor{answers.name}</h2>
+          <p>Every ending is a new beginning, where your journey continues.</p>
+          <img src={projecther} alt="Project Her" className="cover-image" />
         </Page>
       </HTMLFlipBook>
     </div>
