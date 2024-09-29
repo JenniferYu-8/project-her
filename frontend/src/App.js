@@ -63,6 +63,7 @@ function Questionnaire() {
 
   const submitAnswers = async () => {
     try {
+      console.log(updatedAnswers);
       const response = await axios.post(
         "http://127.0.0.1:5000/api/save-answers",
         updatedAnswers
