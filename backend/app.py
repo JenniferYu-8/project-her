@@ -142,7 +142,7 @@ def get_how_to_get_there():
     if latest_answer is None:
         return jsonify({"error": "No answers found."}), 404
 
-    HOW_TO_GET_THERE = f"In 60 words, what steps can {latest_answer.name}, a {latest_answer.gender} interested in {latest_answer.interest}, currently a {latest_answer.position} with aspirations to be a {latest_answer.future}, take to achieve their goals? Include some specific resources to use. Do not use bullet points, but instead list ways separated by commas with proper grammar. Finish off by motivating {latest_answer.name}!"
+    HOW_TO_GET_THERE = f"In 55 words, what steps can {latest_answer.name}, a {latest_answer.gender} interested in {latest_answer.interest}, currently a {latest_answer.position} with aspirations to be a {latest_answer.future}, take to achieve their goals? Include some specific resources to use. Do not use bullet points, but instead list ways separated by commas with proper grammar. Finish off by motivating {latest_answer.name}!"
     
     chat = co.chat(
         preamble=PREAMBLE,
