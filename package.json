@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "cohere-ai": "^7.14.0",
+    "cohere-js": "^1.0.26",
     "react-axios": "^2.0.6",
     "react-pageflip": "^2.0.3",
     "react-router-dom": "^6.26.2"
